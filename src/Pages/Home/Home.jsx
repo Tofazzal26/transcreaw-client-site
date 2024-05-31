@@ -1,11 +1,11 @@
 import Banner from "../../Components/Banner/Banner";
+import Feature from "./../../Components/Feature/Feature";
 
 const Home = () => {
   return (
     <div className="mt-[100px]">
-      <div>
-        <Banner />
-      </div>
+      <Banner />
+      <Feature />
     </div>
   );
 };
