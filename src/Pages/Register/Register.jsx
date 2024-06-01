@@ -24,6 +24,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
@@ -62,7 +63,7 @@ const Register = () => {
               const result = await axiosPublic.post("/userRole", UserInfo);
               console.log(result.data);
               setProfileLoad(true);
-              navigate(location?.state ? location.state : "/");
+              navigate(from);
               toast.success("Register Successful");
             })
             .catch((error) => {

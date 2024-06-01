@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import google from "../../../public/google.png";
 import github from "../../../public/github.png";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
@@ -22,6 +22,9 @@ const Login = () => {
   const { logInEmailPassword, setNotLoading, notLoading } =
     useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
@@ -41,7 +44,7 @@ const Login = () => {
       logInEmailPassword(email, password)
         .then(async (result) => {
           toast.success("Login Successfully");
-          navigate(location?.state ? location.state : "/");
+          navigate(from);
         })
         .catch((error) => {
           toast.error("Please enter a valid email & password");
@@ -62,7 +65,7 @@ const Login = () => {
         const Role = "Guest";
         const UserInfo = { name, email, photo, timeStamp, Role };
         toast.success("Google Login Successfully");
-        navigate(location?.state ? location.state : "/");
+        navigate(from);
         const res = await axiosPublic.post("/userRole", UserInfo);
         console.log(res.data);
       })
@@ -76,7 +79,7 @@ const Login = () => {
     signInWithPopup(auth, githubProvider)
       .then((result) => {
         toast.success("Github Login Successfully");
-        navigate(location?.state ? location.state : "/");
+        navigate(from);
       })
       .catch((error) => {
         // console.log(error);

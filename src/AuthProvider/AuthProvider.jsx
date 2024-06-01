@@ -8,6 +8,7 @@ import {
 import { createContext, useEffect, useState } from "react";
 import auth from "../Firebase/Firebase.config";
 import useAxiosPublic from "../Hooks/useAxiosPublic/useAxiosPublic";
+import axios from "axios";
 
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
@@ -20,6 +21,13 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      const logged = currentUser?.email || user?.email;
+
+      if (currentUser) {
+        axiosPublic.post("/jwt", { logged }, { withCredentials: true });
+      } else {
+        axiosPublic.post("/logout", { logged }, { withCredentials: true });
+      }
       console.log(currentUser);
       setNotLoading(false);
     });
