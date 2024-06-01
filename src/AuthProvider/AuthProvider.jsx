@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../Firebase/Firebase.config";
+import useAxiosPublic from "../Hooks/useAxiosPublic/useAxiosPublic";
 
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
@@ -14,8 +15,10 @@ const AuthProvider = ({ children }) => {
   const [notLoading, setNotLoading] = useState(true);
   const [profileLoad, setProfileLoad] = useState(false);
 
+  const axiosPublic = useAxiosPublic();
+
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       console.log(currentUser);
       setNotLoading(false);
@@ -23,7 +26,13 @@ const AuthProvider = ({ children }) => {
     return () => {
       unSubscribe();
     };
-  }, [profileLoad]);
+  }, [
+    profileLoad,
+    user?.displayName,
+    user?.photoURL,
+    user?.email,
+    axiosPublic,
+  ]);
 
   const createUser = (email, password) => {
     setNotLoading(true);

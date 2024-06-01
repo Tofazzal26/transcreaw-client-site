@@ -48,12 +48,19 @@ const Register = () => {
       });
 
       const photo = res.data.data.display_url;
-      console.log(photo);
 
       createUser(email, password)
         .then((result) => {
           updateUserProfile(name, photo)
-            .then(() => {
+            .then(async () => {
+              const name = data?.name;
+              const email = data?.email;
+              const photo = res?.data.data.display_url;
+              const timeStamp = new Date();
+              const Role = "Guest";
+              const UserInfo = { name, email, photo, timeStamp, Role };
+              const result = await axiosPublic.post("/userRole", UserInfo);
+              console.log(result.data);
               setProfileLoad(true);
               navigate(location?.state ? location.state : "/");
               toast.success("Register Successful");

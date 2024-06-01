@@ -8,8 +8,16 @@ import github from "../../../public/github.png";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
+import {
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import auth from "../../Firebase/Firebase.config";
+import useAxiosPublic from "../../Hooks/useAxiosPublic/useAxiosPublic";
 
 const Login = () => {
+  const axiosPublic = useAxiosPublic();
   const [showPassword, setShowPassword] = useState(false);
   const { logInEmailPassword, setNotLoading, notLoading } =
     useContext(AuthContext);
@@ -21,6 +29,9 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
+
   const onSubmit = (data) => {
     const email = data.email;
     const password = data.password;
@@ -28,7 +39,7 @@ const Login = () => {
     try {
       setNotLoading(true);
       logInEmailPassword(email, password)
-        .then((result) => {
+        .then(async (result) => {
           toast.success("Login Successfully");
           navigate(location?.state ? location.state : "/");
         })
@@ -38,6 +49,38 @@ const Login = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const googleLogin = () => {
+    setNotLoading(true);
+    signInWithPopup(auth, googleProvider)
+      .then(async (result) => {
+        const name = result.user.displayName;
+        const email = result.user.email;
+        const photo = result.user.photoURL;
+        const timeStamp = new Date();
+        const Role = "Guest";
+        const UserInfo = { name, email, photo, timeStamp, Role };
+        toast.success("Google Login Successfully");
+        navigate(location?.state ? location.state : "/");
+        const res = await axiosPublic.post("/userRole", UserInfo);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        // console.log(error);
+      });
+  };
+
+  const githubLogin = () => {
+    setNotLoading(true);
+    signInWithPopup(auth, githubProvider)
+      .then((result) => {
+        toast.success("Github Login Successfully");
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((error) => {
+        // console.log(error);
+      });
   };
 
   return (
@@ -100,13 +143,13 @@ const Login = () => {
 
                 <div>
                   <div className="text-center space-x-4 flex items-center lg:flex-row flex-col justify-center">
-                    <button>
+                    <button onClick={googleLogin}>
                       <span className="font-semibold flex items-center gap-2 border p-2">
                         <img className="h-[27px]" src={google} alt="" />
                         Continue Google
                       </span>
                     </button>
-                    <button>
+                    <button onClick={githubLogin}>
                       <span className="font-semibold flex items-center gap-2 border p-2">
                         <img className="h-[30px]" src={github} alt="" />
                         Continue Github
