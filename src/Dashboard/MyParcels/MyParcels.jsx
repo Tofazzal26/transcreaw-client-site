@@ -3,13 +3,14 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
 import { useContext } from "react";
 import { AuthContext } from "./../../AuthProvider/AuthProvider";
 import ParcelTable from "./ParcelTable";
+import Swal from "sweetalert2";
 
 const MyParcels = () => {
   const axiosSecure = useAxiosSecure();
 
   const { user } = useContext(AuthContext);
 
-  const { data: userBook = [] } = useQuery({
+  const { refetch, data: userBook = [] } = useQuery({
     queryKey: ["bookParcel"],
     queryFn: async () => {
       const result = await axiosSecure.get(`/bookParcel/${user?.email}`, {
@@ -18,6 +19,32 @@ const MyParcels = () => {
       return result.data;
     },
   });
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to Delete this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await axiosSecure.delete(`/bookParcel/${id}`, {
+          withCredentials: true,
+        });
+        if (result.data.deletedCount) {
+          refetch();
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        }
+      }
+    });
+  };
 
   return (
     <div className="bg-[#ffffff] mt-6">
@@ -52,7 +79,11 @@ const MyParcels = () => {
               </thead>
               <tbody>
                 {userBook.map((bookData) => (
-                  <ParcelTable key={bookData._id} bookData={bookData} />
+                  <ParcelTable
+                    key={bookData._id}
+                    bookData={bookData}
+                    handleDelete={handleDelete}
+                  />
                 ))}
               </tbody>
             </table>

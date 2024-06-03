@@ -1,7 +1,7 @@
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { HiPlus } from "react-icons/hi";
-const ParcelTable = ({ bookData }) => {
-  const { parcelType, requestDate, BookingDate, status } = bookData || {};
+const ParcelTable = ({ bookData, handleDelete }) => {
+  const { parcelType, requestDate, BookingDate, status, _id } = bookData || {};
 
   return (
     <>
@@ -22,7 +22,10 @@ const ParcelTable = ({ bookData }) => {
           </button>
         </td>
         <td className="font-medium text-[14px]">
-          <button className="bg-red-500 px-4 rounded-md py-2">
+          <button
+            onClick={() => handleDelete(_id)}
+            className="bg-red-500 px-4 rounded-md py-2"
+          >
             <RiDeleteBin5Fill size={20} color="#ffffff" />
           </button>
         </td>
