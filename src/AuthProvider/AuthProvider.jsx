@@ -71,6 +71,7 @@ const AuthProvider = ({ children }) => {
     notLoading,
     setNotLoading,
     profileLoad,
+    setUser,
     logOut,
     setProfileLoad,
   };

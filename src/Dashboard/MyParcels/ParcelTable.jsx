@@ -18,19 +18,31 @@ const ParcelTable = ({ bookData, handleDelete }) => {
           </button>
         </td>
         <td className="font-medium text-[14px]">
-          <NavLink to={`/dashboard/parcelUpdate/${_id}`}>
+          {status === "pending" ? (
+            <NavLink to={`/dashboard/parcelUpdate/${_id}`}>
+              <button className="bg-green-500 px-4 rounded-md py-2">
+                <HiPlus size={20} color="#ffffff" />
+              </button>
+            </NavLink>
+          ) : (
             <button className="bg-green-500 px-4 rounded-md py-2">
               <HiPlus size={20} color="#ffffff" />
             </button>
-          </NavLink>
+          )}
         </td>
         <td className="font-medium text-[14px]">
-          <button
-            onClick={() => handleDelete(_id)}
-            className="bg-red-500 px-4 rounded-md py-2"
-          >
-            <RiDeleteBin5Fill size={20} color="#ffffff" />
-          </button>
+          {status === "pending" ? (
+            <button
+              onClick={() => handleDelete(_id)}
+              className="bg-red-500 px-4 rounded-md py-2"
+            >
+              <RiDeleteBin5Fill size={20} color="#ffffff" />
+            </button>
+          ) : (
+            <button className="bg-red-500 px-4 rounded-md py-2">
+              <RiDeleteBin5Fill size={20} color="#ffffff" />
+            </button>
+          )}
         </td>
       </tr>
     </>

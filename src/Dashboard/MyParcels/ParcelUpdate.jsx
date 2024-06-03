@@ -6,15 +6,18 @@ import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { TbFidgetSpinner } from "react-icons/tb";
+import useAxiosSecure from "./../../Hooks/useAxiosSecure/useAxiosSecure";
 const ParcelUpdate = () => {
   const { notLoading, user } = useContext(AuthContext);
   const updateBook = useLoaderData();
+  const navigate = useNavigate();
 
   const {
     weightPrice,
     phone,
     parcelType,
     parcelWeight,
+    _id,
     receiverName,
     receiverPhone,
     parcelDeliveryAddress,
@@ -24,7 +27,7 @@ const ParcelUpdate = () => {
   } = updateBook || {};
 
   const axiosPublic = useAxiosPublic();
-  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
   const [startDate, setStartDate] = useState(new Date());
   const [price, setPrice] = useState();
 
@@ -61,7 +64,21 @@ const ParcelUpdate = () => {
       Latitudes,
       requestDates,
     };
-    console.log(bookData);
+
+    const result = await axiosSecure.put(`/bookParcelUpdate/${_id}`, bookData, {
+      withCredentials: true,
+    });
+
+    if (result.data.modifiedCount > 0) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your Parcel Book Updated",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/dashboard/myParcel");
+    }
   };
 
   return (
