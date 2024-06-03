@@ -92,7 +92,7 @@ const Navbar = () => {
                   <div className="w-12 rounded-full border-[2px] p-[2px] border-[#0984e2]">
                     <img
                       className="rounded-full"
-                      alt="AA"
+                      alt="error"
                       src={user?.photoURL}
                     />
                   </div>
@@ -107,7 +107,9 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li>
-                    <a className="font-semibold text-[16px]">Dashboard</a>
+                    <NavLink to="/dashboard">
+                      <a className="font-semibold text-[16px]">Dashboard</a>
+                    </NavLink>
                   </li>
 
                   <li>
