@@ -14,6 +14,8 @@ import Statistics from "../Dashboard/Statistics/Statistics";
 import AllParcels from "../Dashboard/AllParcels/AllParcels";
 import AllUsers from "../Dashboard/AllUsers/AllUsers";
 import AllDeliveryMen from "../Dashboard/AllDeliveryMen/AllDeliveryMen";
+import MyDeliveryList from "../Dashboard/MyDeliveryList/MyDeliveryList";
+import MyReviews from "../Dashboard/MyReviews/MyReviews";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -48,6 +50,14 @@ const Router = createBrowserRouter([
       {
         path: "/dashboard/myParcel",
         element: <MyParcels />,
+      },
+      {
+        path: "/dashboard/myDeliveryList",
+        element: <MyDeliveryList />,
+      },
+      {
+        path: "/dashboard/myReviews",
+        element: <MyReviews />,
       },
       {
         path: "/dashboard/statistics",

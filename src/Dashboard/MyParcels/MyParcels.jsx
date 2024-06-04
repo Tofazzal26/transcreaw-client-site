@@ -23,7 +23,7 @@ const MyParcels = () => {
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to Delete this!",
+      text: "You won't be able to Cancel this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -31,17 +31,23 @@ const MyParcels = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const result = await axiosSecure.delete(`/bookParcel/${id}`, {
-          withCredentials: true,
-        });
-        if (result.data.deletedCount) {
-          refetch();
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
-        }
+        const NewStatus = "Cancelled";
+        const result = await axiosSecure.patch(
+          `/bookParcel/${id}`,
+          { NewStatus },
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(result.data);
+        // if (result.data.deletedCount) {
+        //   refetch();
+        //   Swal.fire({
+        //     title: "Deleted!",
+        //     text: "Your file has been deleted.",
+        //     icon: "success",
+        //   });
+        // }
       }
     });
   };

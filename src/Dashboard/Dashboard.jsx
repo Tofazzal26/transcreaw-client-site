@@ -84,6 +84,46 @@ const Dashboard = () => {
                         </>
                       )}
                     </div>
+
+                    {/* Delivery men role nav link */}
+
+                    <div className="flex flex-col space-y-4 mt-12">
+                      {userRole === "Delivery Man" && (
+                        <>
+                          <NavLink
+                            to="/dashboard/myDeliveryList"
+                            className={({ isActive }) =>
+                              isActive
+                                ? "bg-gray-500 text-white py-2 rounded-md"
+                                : ""
+                            }
+                          >
+                            <button
+                              rel="noopener noreferrer"
+                              className="text-sm px-2 font-semibold tracking-widest uppercase "
+                            >
+                              My Delivery List
+                            </button>
+                          </NavLink>
+                          <NavLink
+                            to="/dashboard/myReviews"
+                            className={({ isActive }) =>
+                              isActive
+                                ? "bg-gray-500 text-white py-2 rounded-md"
+                                : ""
+                            }
+                          >
+                            <button
+                              rel="noopener noreferrer"
+                              className="text-sm px-2 font-semibold tracking-widest uppercase"
+                            >
+                              My Reviews
+                            </button>
+                          </NavLink>
+                        </>
+                      )}
+                    </div>
+
                     {/* Admin  role nav link */}
 
                     <div className="flex flex-col space-y-4 mt-12">
