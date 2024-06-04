@@ -34,17 +34,21 @@ const BookParcel = () => {
     const receiverName = e.target.receiveName.value;
     const receiverPhone = e.target.receivePhone.value;
     const parcelDeliveryAddress = e.target.parcelAddress.value;
+    const ApproximateDate = "Pending";
+    const DeliveryMenID = "Pending";
     const Longitude = e.target.Longitude.value;
     const Latitude = e.target.Latitude.value;
     const BookingDate = new Date().toLocaleDateString();
     const requestDate = new Date(startDate).toLocaleDateString();
-    const status = "pending";
+    const status = "Pending";
     const bookData = {
       name,
       email,
       status,
       weightPrice,
       phone,
+      ApproximateDate,
+      DeliveryMenID,
       parcelType,
       parcelWeight,
       receiverName,
@@ -74,7 +78,7 @@ const BookParcel = () => {
         <h1 className="text-2xl font-semibold mb-8 uppercase text-center">
           Book Parcel
         </h1>
-        <h1 className="text-xl font-semibold mb-4">Price : $ {price}</h1>
+        <h1 className="text-xl font-semibold mb-4">Price : {price}$</h1>
         <form onSubmit={handleBook}>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div className="space-y-4">

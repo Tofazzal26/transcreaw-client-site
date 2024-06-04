@@ -3,12 +3,25 @@ import { AuthContext } from "./../../AuthProvider/AuthProvider";
 import { useForm } from "react-hook-form";
 import { GrUserSettings } from "react-icons/gr";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 const image_hosting_key = import.meta.env.VITE_IMAGE_BB_API_PROFILE;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const MyProfile = () => {
   const { user, updateUserProfile, setUser } = useContext(AuthContext);
   const [update, setUpdate] = useState(false);
   const axiosSecure = useAxiosSecure();
+
+  const { refetch, data: userProfile = [] } = useQuery({
+    queryKey: ["profile", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `http://localhost:4000/userProfile/${user?.email}`
+      );
+      return res.data;
+    },
+  });
+
+  const { email, name, phone, photo, _id } = userProfile || {};
 
   const {
     register,
@@ -19,6 +32,7 @@ const MyProfile = () => {
 
   const onSubmit = async (data) => {
     const name = data.name;
+    const phone = data.phone;
     const image = data.image[0];
     const formData = new FormData();
     formData.append(`image`, image);
@@ -32,13 +46,16 @@ const MyProfile = () => {
       );
 
       const photo = res.data.data.display_url;
-      updateUserProfile(name, photo)
-        .then((result) => {
-          setUser({ ...user, photoURL: photo });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const ProfileDoc = { phone, name, photo };
+      const updateProfile = await axiosSecure.patch(
+        `/userProfile/phoneUpdate/${_id}`,
+        ProfileDoc,
+        { withCredentials: true }
+      );
+      console.log(updateProfile.data);
+      if (updateProfile.data.modifiedCount > 0) {
+        refetch();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -48,7 +65,7 @@ const MyProfile = () => {
     <div className="mt-6">
       <div className="flex relative flex-col justify-center p-6  shadow-md rounded-xl sm:px-12 dark:bg-gray-50 dark:text-gray-800">
         <img
-          src={user?.photoURL}
+          src={photo}
           alt=""
           className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square"
         />
@@ -62,11 +79,12 @@ const MyProfile = () => {
         </div>
         <div className="space-y-4 text-center divide-y dark:divide-gray-300">
           <div className="my-2 space-y-1">
-            <h2 className="text-xl font-semibold sm:text-2xl">
-              {user?.displayName}
-            </h2>
+            <h2 className="text-xl font-semibold sm:text-2xl">{name}</h2>
             <p className="px-5 text-xs sm:text-base dark:text-gray-600">
-              {user?.email}
+              {email}
+            </p>
+            <p className="px-5 text-xs sm:text-base dark:text-gray-600">
+              {phone}
             </p>
           </div>
           <div className="flex justify-center pt-2 space-x-4 align-center">
@@ -150,6 +168,23 @@ const MyProfile = () => {
                         {...register("name", { required: true })}
                       />
                       {errors.name && (
+                        <span className="text-red-500">
+                          This Email field is required
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <label className="text-[15px] font-semibold">
+                        Number
+                      </label>
+                      <input
+                        type="number"
+                        name="phone"
+                        placeholder=""
+                        className="w-full p-3 border outline-none "
+                        {...register("phone", { required: true })}
+                      />
+                      {errors.phone && (
                         <span className="text-red-500">
                           This Email field is required
                         </span>

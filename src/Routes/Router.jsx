@@ -10,6 +10,10 @@ import BookParcel from "../Dashboard/BookParcel/BookParcel";
 import MyParcels from "../Dashboard/MyParcels/MyParcels";
 import MyProfile from "../Dashboard/MyProfile/MyProfile";
 import ParcelUpdate from "../Dashboard/MyParcels/ParcelUpdate";
+import Statistics from "../Dashboard/Statistics/Statistics";
+import AllParcels from "../Dashboard/AllParcels/AllParcels";
+import AllUsers from "../Dashboard/AllUsers/AllUsers";
+import AllDeliveryMen from "../Dashboard/AllDeliveryMen/AllDeliveryMen";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -44,6 +48,22 @@ const Router = createBrowserRouter([
       {
         path: "/dashboard/myParcel",
         element: <MyParcels />,
+      },
+      {
+        path: "/dashboard/statistics",
+        element: <Statistics />,
+      },
+      {
+        path: "/dashboard/allParcels",
+        element: <AllParcels />,
+      },
+      {
+        path: "/dashboard/allUsers",
+        element: <AllUsers />,
+      },
+      {
+        path: "/dashboard/allDeliveryMen",
+        element: <AllDeliveryMen />,
       },
       {
         path: "/dashboard/parcelUpdate/:id",

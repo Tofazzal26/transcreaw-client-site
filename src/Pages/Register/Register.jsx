@@ -36,6 +36,7 @@ const Register = () => {
     const email = data.email;
     const password = data.password;
     const name = data.name;
+    const phone = data.phone;
     const image = data.image[0];
     const formData = new FormData();
     formData.append(`image`, image);
@@ -56,10 +57,11 @@ const Register = () => {
             .then(async () => {
               const name = data?.name;
               const email = data?.email;
+              const phone = data.phone;
               const photo = res?.data.data.display_url;
               const timeStamp = new Date();
               const Role = "Guest";
-              const UserInfo = { name, email, photo, timeStamp, Role };
+              const UserInfo = { name, email, photo, timeStamp, Role, phone };
               const result = await axiosPublic.post("/userRole", UserInfo);
               console.log(result.data);
               setProfileLoad(true);
@@ -137,6 +139,21 @@ const Register = () => {
                   {errors.email && (
                     <span className="text-red-500">
                       This Email field is required
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <label className="text-[15px] font-semibold">Phone</label>
+                  <input
+                    type="number"
+                    name="phone"
+                    placeholder=""
+                    className="w-full p-3 border outline-none "
+                    {...register("phone", { required: true })}
+                  />
+                  {errors.phone && (
+                    <span className="text-red-500">
+                      This Phone field is required
                     </span>
                   )}
                 </div>

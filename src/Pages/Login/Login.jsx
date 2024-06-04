@@ -67,7 +67,6 @@ const Login = () => {
         toast.success("Google Login Successfully");
         navigate(from);
         const res = await axiosPublic.post("/userRole", UserInfo);
-        console.log(res.data);
       })
       .catch((error) => {
         // console.log(error);

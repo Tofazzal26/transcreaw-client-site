@@ -46,6 +46,11 @@ const MyParcels = () => {
     });
   };
 
+  const totalPrice = userBook.reduce(
+    (current, price) => current + price.weightPrice,
+    0
+  );
+
   return (
     <div className="bg-[#ffffff] mt-6">
       <div className="p-12">
@@ -54,7 +59,7 @@ const MyParcels = () => {
         </h1>
         <div className="flex justify-between my-2">
           <h1 className="text-xl font-semibold mb-6 uppercase">
-            Total Price :
+            Total Price : {totalPrice}$
           </h1>
           <span>
             <button className="text-xl px-4 py-1 bg-[#0984e2] rounded-md text-white">

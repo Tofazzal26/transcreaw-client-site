@@ -32,6 +32,7 @@ const Dashboard = () => {
                     <h2 className="text-xl mb-6 font-semibold tracking-widest uppercase">
                       Dashboard
                     </h2>
+                    {/* guest user role nav link */}
                     <div className="flex flex-col space-y-4 mt-12">
                       {userRole === "Guest" && (
                         <>
@@ -78,6 +79,74 @@ const Dashboard = () => {
                               className="text-sm px-2 font-semibold tracking-widest uppercase "
                             >
                               My Profile
+                            </button>
+                          </NavLink>
+                        </>
+                      )}
+                    </div>
+                    {/* Admin  role nav link */}
+
+                    <div className="flex flex-col space-y-4 mt-12">
+                      {userRole === "Admin" && (
+                        <>
+                          <NavLink
+                            to="/dashboard/statistics"
+                            className={({ isActive }) =>
+                              isActive
+                                ? "bg-gray-500 text-white py-2 rounded-md"
+                                : ""
+                            }
+                          >
+                            <button
+                              rel="noopener noreferrer"
+                              className="text-sm px-2 font-semibold tracking-widest uppercase "
+                            >
+                              Statistics
+                            </button>
+                          </NavLink>
+                          <NavLink
+                            to="/dashboard/allParcels"
+                            className={({ isActive }) =>
+                              isActive
+                                ? "bg-gray-500 text-white py-2 rounded-md"
+                                : ""
+                            }
+                          >
+                            <button
+                              rel="noopener noreferrer"
+                              className="text-sm px-2 font-semibold tracking-widest uppercase"
+                            >
+                              All Parcels
+                            </button>
+                          </NavLink>
+                          <NavLink
+                            to="/dashboard/allUsers"
+                            className={({ isActive }) =>
+                              isActive
+                                ? "bg-gray-500 text-white py-2 rounded-md"
+                                : ""
+                            }
+                          >
+                            <button
+                              rel="noopener noreferrer"
+                              className="text-sm px-2 font-semibold tracking-widest uppercase "
+                            >
+                              All Users
+                            </button>
+                          </NavLink>
+                          <NavLink
+                            to="/dashboard/allDeliveryMen"
+                            className={({ isActive }) =>
+                              isActive
+                                ? "bg-gray-500 text-white py-2 rounded-md"
+                                : ""
+                            }
+                          >
+                            <button
+                              rel="noopener noreferrer"
+                              className="text-sm px-2 font-semibold tracking-widest uppercase "
+                            >
+                              All Delivery Men
                             </button>
                           </NavLink>
                         </>
