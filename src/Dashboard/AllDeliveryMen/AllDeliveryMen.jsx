@@ -1,4 +1,22 @@
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
+import AllDeliveryMenTable from "./AllDeliveryMenTable";
+
 const AllDeliveryMen = () => {
+  const axiosSecure = useAxiosSecure();
+
+  const { data: AllDeliveryMen = [] } = useQuery({
+    queryKey: ["allDeliveryMen"],
+    queryFn: async () => {
+      const result = await axiosSecure.get(`/allDeliveryMan`, {
+        withCredentials: true,
+      });
+      return result.data;
+    },
+  });
+
+  console.log(AllDeliveryMen);
+
   return (
     <div className="bg-[#ffffff] mt-6">
       <div className="p-12">
@@ -13,11 +31,17 @@ const AllDeliveryMen = () => {
                   <th className="text-[16px]">Delivery Man Name</th>
                   <th className="text-[16px]">Phone Number</th>
                   <th className="text-[16px]">Number of parcel delivered</th>
-                  <th className="text-[16px]">Requested Date</th>
                   <th className="text-[16px]">Average review</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody>
+                {AllDeliveryMen.map((deliveryMan) => (
+                  <AllDeliveryMenTable
+                    key={deliveryMan._id}
+                    deliveryMan={deliveryMan}
+                  />
+                ))}
+              </tbody>
             </table>
           </div>
         </div>

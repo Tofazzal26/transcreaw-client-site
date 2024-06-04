@@ -64,11 +64,15 @@ const Login = () => {
         const timeStamp = new Date();
         const Role = "User";
         const TotalBookCount = 0;
+        const AverageReview = 0;
+        const TotalDelivery = 0;
         const UserInfo = {
           name,
           email,
           photo,
           timeStamp,
+          AverageReview,
+          TotalDelivery,
           Role,
           TotalBookCount,
         };

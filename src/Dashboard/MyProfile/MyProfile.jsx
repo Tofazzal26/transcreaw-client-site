@@ -3,6 +3,7 @@ import { AuthContext } from "./../../AuthProvider/AuthProvider";
 import { useForm } from "react-hook-form";
 import { GrUserSettings } from "react-icons/gr";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
+import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 const image_hosting_key = import.meta.env.VITE_IMAGE_BB_API_PROFILE;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -54,6 +55,13 @@ const MyProfile = () => {
       );
       console.log(updateProfile.data);
       if (updateProfile.data.modifiedCount > 0) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your Profile Updated",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         refetch();
       }
     } catch (err) {
