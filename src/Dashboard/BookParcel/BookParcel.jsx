@@ -61,6 +61,10 @@ const BookParcel = () => {
     };
     const res = await axiosPublic.post("/bookParcel", bookData);
     if (res.data.insertedId) {
+      const countUpdate = await axiosPublic.patch(
+        `/totalBookCount/${user?.email}`
+      );
+      console.log(countUpdate.data);
       Swal.fire({
         position: "top-end",
         icon: "success",

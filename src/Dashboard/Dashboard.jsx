@@ -34,7 +34,7 @@ const Dashboard = () => {
                     </h2>
                     {/* guest user role nav link */}
                     <div className="flex flex-col space-y-4 mt-12">
-                      {userRole === "Guest" && (
+                      {userRole === "User" && (
                         <>
                           <NavLink
                             to="/dashboard/bookParcel"

@@ -14,8 +14,6 @@ const AllParcels = () => {
     },
   });
 
-  console.log(allParcelManage);
-
   return (
     <div>
       <div className="bg-[#ffffff] mt-6">

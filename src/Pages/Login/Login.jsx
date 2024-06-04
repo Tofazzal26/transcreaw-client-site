@@ -62,11 +62,20 @@ const Login = () => {
         const email = result.user.email;
         const photo = result.user.photoURL;
         const timeStamp = new Date();
-        const Role = "Guest";
-        const UserInfo = { name, email, photo, timeStamp, Role };
+        const Role = "User";
+        const TotalBookCount = 0;
+        const UserInfo = {
+          name,
+          email,
+          photo,
+          timeStamp,
+          Role,
+          TotalBookCount,
+        };
         toast.success("Google Login Successfully");
         navigate(from);
         const res = await axiosPublic.post("/userRole", UserInfo);
+        console.log(res.data);
       })
       .catch((error) => {
         // console.log(error);

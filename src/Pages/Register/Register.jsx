@@ -36,7 +36,6 @@ const Register = () => {
     const email = data.email;
     const password = data.password;
     const name = data.name;
-    const phone = data.phone;
     const image = data.image[0];
     const formData = new FormData();
     formData.append(`image`, image);
@@ -60,8 +59,17 @@ const Register = () => {
               const phone = data.phone;
               const photo = res?.data.data.display_url;
               const timeStamp = new Date();
-              const Role = "Guest";
-              const UserInfo = { name, email, photo, timeStamp, Role, phone };
+              const Role = data.role;
+              const TotalBookCount = 0;
+              const UserInfo = {
+                name,
+                email,
+                photo,
+                timeStamp,
+                Role,
+                phone,
+                TotalBookCount,
+              };
               const result = await axiosPublic.post("/userRole", UserInfo);
               console.log(result.data);
               setProfileLoad(true);
@@ -184,6 +192,26 @@ const Register = () => {
                     </span>
                   </div>
                 </div>
+                <select
+                  required
+                  {...register("role", { required: true })}
+                  className="select font-semibold text-base select-bordered rounded-none w-full"
+                >
+                  <option value="User" className="font-semibold text-base">
+                    User
+                  </option>
+                  <option
+                    value="Delivery Man"
+                    className="font-semibold text-base"
+                  >
+                    Delivery Man
+                  </option>
+                </select>
+                {errors.role && (
+                  <span className="text-red-500">
+                    This Password field is required
+                  </span>
+                )}
 
                 <button
                   disabled={notLoading}
