@@ -1,5 +1,5 @@
-const AllUsersTable = ({ allUser }) => {
-  const { name, phone, Role, TotalBookCount } = allUser || {};
+const AllUsersTable = ({ allUser, handleMakeAdmin, handleMakeDeliveryMen }) => {
+  const { name, phone, Role, TotalBookCount, _id } = allUser || {};
 
   return (
     <>
@@ -18,14 +18,20 @@ const AllUsersTable = ({ allUser }) => {
         </td>
         <td>
           <h2 className="font-semibold ">
-            <button className="bg-blue-400 px-4 py-2 text-white rounded-md">
+            <button
+              onClick={() => handleMakeDeliveryMen(_id)}
+              className="bg-blue-400 px-4 py-2 text-white rounded-md"
+            >
               Delivery Men
             </button>
           </h2>
         </td>
         <td>
           <h2 className="font-semibold">
-            <button className="bg-blue-400 px-4 py-2 text-white rounded-md">
+            <button
+              onClick={() => handleMakeAdmin(_id)}
+              className="bg-blue-400 px-4 py-2 text-white rounded-md"
+            >
               Admin
             </button>
           </h2>

@@ -3,12 +3,13 @@ import AllUsersTable from "./AllUsersTable";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
 import { useContext } from "react";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext);
 
-  const { data: allUserData = [] } = useQuery({
+  const { refetch, data: allUserData = [] } = useQuery({
     queryKey: ["allUserData"],
     queryFn: async () => {
       const result = await axiosSecure.get(`/allUser`, {
@@ -17,6 +18,64 @@ const AllUsers = () => {
       return result.data;
     },
   });
+
+  const handleMakeDeliveryMen = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be Deliverymen",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Deliverymen it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const Delivery = "Delivery Man";
+        const res = await axiosSecure.patch(
+          `/userRoleUpdateDelivery/${id}`,
+          { Delivery },
+          { withCredentials: true }
+        );
+        if (res.data.modifiedCount > 0) {
+          refetch();
+          Swal.fire({
+            title: "Deliverymen!",
+            text: "Change To Deliverymen.",
+            icon: "success",
+          });
+        }
+      }
+    });
+  };
+
+  const handleMakeAdmin = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to Admin this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Admit it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const changeRole = "Admin";
+        const res = await axiosSecure.patch(
+          `/userRoleUpdateAdmin/${id}`,
+          { changeRole },
+          { withCredentials: true }
+        );
+        if (res.data.modifiedCount > 0) {
+          refetch();
+          Swal.fire({
+            title: "Admin!",
+            text: "Change To Admin.",
+            icon: "success",
+          });
+        }
+      }
+    });
+  };
 
   return (
     <div>
@@ -47,7 +106,12 @@ const AllUsers = () => {
               </thead>
               <tbody>
                 {allUserData.map((allUser) => (
-                  <AllUsersTable key={allUser._id} allUser={allUser} />
+                  <AllUsersTable
+                    key={allUser._id}
+                    allUser={allUser}
+                    handleMakeAdmin={handleMakeAdmin}
+                    handleMakeDeliveryMen={handleMakeDeliveryMen}
+                  />
                 ))}
               </tbody>
             </table>

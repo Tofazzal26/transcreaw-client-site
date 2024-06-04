@@ -15,8 +15,6 @@ const AllDeliveryMen = () => {
     },
   });
 
-  console.log(AllDeliveryMen);
-
   return (
     <div className="bg-[#ffffff] mt-6">
       <div className="p-12">
