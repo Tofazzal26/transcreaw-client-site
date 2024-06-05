@@ -1,4 +1,5 @@
 import Banner from "../../Components/Banner/Banner";
+import Modal from "../../Components/Modal/Modal";
 import TopDeliveryMan from "../../Components/TopDeliveryMan/TopDeliveryMan";
 import Feature from "./../../Components/Feature/Feature";
 

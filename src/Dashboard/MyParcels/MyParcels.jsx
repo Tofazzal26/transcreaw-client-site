@@ -28,7 +28,7 @@ const MyParcels = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes, Cancel it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
         const NewStatus = "Cancelled";
@@ -40,14 +40,14 @@ const MyParcels = () => {
           }
         );
         console.log(result.data);
-        // if (result.data.deletedCount) {
-        //   refetch();
-        //   Swal.fire({
-        //     title: "Deleted!",
-        //     text: "Your file has been deleted.",
-        //     icon: "success",
-        //   });
-        // }
+        if (result.data.modifiedCount > 0) {
+          refetch();
+          Swal.fire({
+            title: "Canceled!",
+            text: "Your file has been Canceled.",
+            icon: "success",
+          });
+        }
       }
     });
   };

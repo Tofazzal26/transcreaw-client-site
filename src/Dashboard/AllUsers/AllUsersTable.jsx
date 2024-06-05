@@ -1,4 +1,10 @@
-const AllUsersTable = ({ allUser, handleMakeAdmin, handleMakeDeliveryMen }) => {
+const AllUsersTable = ({
+  allUser,
+  handleMakeAdmin,
+  handleMakeDeliveryMen,
+  handleAlreadyDelivery,
+  handleAlreadyAdmin,
+}) => {
   const { name, phone, Role, TotalBookCount, _id } = allUser || {};
 
   return (
@@ -18,22 +24,40 @@ const AllUsersTable = ({ allUser, handleMakeAdmin, handleMakeDeliveryMen }) => {
         </td>
         <td>
           <h2 className="font-semibold ">
-            <button
-              onClick={() => handleMakeDeliveryMen(_id)}
-              className="bg-blue-400 px-4 py-2 text-white rounded-md"
-            >
-              Delivery Men
-            </button>
+            {Role === "Delivery Man" ? (
+              <button
+                onClick={handleAlreadyDelivery}
+                className="bg-blue-400 px-4 py-2 text-white rounded-md"
+              >
+                Delivery Men
+              </button>
+            ) : (
+              <button
+                onClick={() => handleMakeDeliveryMen(_id)}
+                className="bg-blue-400 px-4 py-2 text-white rounded-md"
+              >
+                Delivery Men
+              </button>
+            )}
           </h2>
         </td>
         <td>
           <h2 className="font-semibold">
-            <button
-              onClick={() => handleMakeAdmin(_id)}
-              className="bg-blue-400 px-4 py-2 text-white rounded-md"
-            >
-              Admin
-            </button>
+            {Role === "Admin" ? (
+              <button
+                onClick={handleAlreadyAdmin}
+                className="bg-blue-400 px-4 py-2 text-white rounded-md"
+              >
+                Admin
+              </button>
+            ) : (
+              <button
+                onClick={() => handleMakeAdmin(_id)}
+                className="bg-blue-400 px-4 py-2 text-white rounded-md"
+              >
+                Admin
+              </button>
+            )}
           </h2>
         </td>
       </tr>

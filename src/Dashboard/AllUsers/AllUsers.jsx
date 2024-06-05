@@ -48,6 +48,14 @@ const AllUsers = () => {
     });
   };
 
+  const handleAlreadyDelivery = () => {
+    Swal.fire("He is a Already DeliveryMan !");
+  };
+
+  const handleAlreadyAdmin = () => {
+    Swal.fire("He is a Already Admin !");
+  };
+
   const handleMakeAdmin = async (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -111,6 +119,8 @@ const AllUsers = () => {
                     allUser={allUser}
                     handleMakeAdmin={handleMakeAdmin}
                     handleMakeDeliveryMen={handleMakeDeliveryMen}
+                    handleAlreadyDelivery={handleAlreadyDelivery}
+                    handleAlreadyAdmin={handleAlreadyAdmin}
                   />
                 ))}
               </tbody>

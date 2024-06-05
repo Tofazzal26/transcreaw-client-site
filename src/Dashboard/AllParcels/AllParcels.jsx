@@ -1,8 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
 import AllParcelTable from "./AllParcelTable";
+import { useState } from "react";
+import Modal from "react-modal";
+import React from "react";
+
+Modal.setAppElement("#modaldiv");
 
 const AllParcels = () => {
+  // modal implement start
+
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   const axiosSecure = useAxiosSecure();
   const { data: allParcelManage = [] } = useQuery({
     queryKey: ["allParcel"],
@@ -38,10 +55,38 @@ const AllParcels = () => {
                 </thead>
                 <tbody>
                   {allParcelManage.map((parcel) => (
-                    <AllParcelTable key={parcel._id} parcel={parcel} />
+                    <AllParcelTable
+                      key={parcel._id}
+                      parcel={parcel}
+                      Modal={Modal}
+                      openModal={openModal}
+                      closeModal={closeModal}
+                      modalIsOpen={modalIsOpen}
+                    />
                   ))}
                 </tbody>
               </table>
+              {/* <div>
+                <button onClick={openModal}>Open Modal</button>
+                <Modal
+                  isOpen={modalIsOpen}
+                  onAfterOpen={afterOpenModal}
+                  onRequestClose={closeModal}
+                  style={customStyles}
+                  contentLabel="Example Modal"
+                >
+                  <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
+                  <button onClick={closeModal}>close</button>
+                  <div>I am a modal</div>
+                  <form>
+                    <input />
+                    <button>tab navigation</button>
+                    <button>stays</button>
+                    <button>inside</button>
+                    <button>the modal</button>
+                  </form>
+                </Modal>
+              </div> */}
             </div>
           </div>
         </div>
