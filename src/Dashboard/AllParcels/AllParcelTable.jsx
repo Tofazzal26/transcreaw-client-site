@@ -76,6 +76,9 @@ const AllParcelTable = ({ parcel, refetch }) => {
   const handleManageFinish = () => {
     Swal.fire("Already On The Way");
   };
+  const handleDelivery = () => {
+    Swal.fire("Already Delivered");
+  };
 
   return (
     <>
@@ -91,6 +94,13 @@ const AllParcelTable = ({ parcel, refetch }) => {
             {status === "On The Way" ? (
               <button
                 onClick={handleManageFinish}
+                className="rounded-md  py-2 px-4 bg-[#60a5fa] text-sm font-medium text-white focus:outline-none data-[hover]:bg-black/30 data-[focus]:outline-1 data-[focus]:outline-white"
+              >
+                Manage
+              </button>
+            ) : status === "Delivered" ? (
+              <button
+                onClick={handleDelivery}
                 className="rounded-md  py-2 px-4 bg-[#60a5fa] text-sm font-medium text-white focus:outline-none data-[hover]:bg-black/30 data-[focus]:outline-1 data-[focus]:outline-white"
               >
                 Manage

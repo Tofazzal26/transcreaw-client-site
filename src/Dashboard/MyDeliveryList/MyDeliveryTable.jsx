@@ -3,6 +3,8 @@ const MyDeliveryTable = ({
   indx,
   handleCancel,
   handleAlreadyCancel,
+  handleDelivered,
+  handleDeliveryCancel,
 }) => {
   const {
     name,
@@ -53,9 +55,28 @@ const MyDeliveryTable = ({
         </td>
         <td>
           <h1 className="font-semibold text-[14px]">
-            <button className="bg-[#60a5fa] px-4 py-2 text-white rounded-md">
-              Deliver
-            </button>
+            {status === "On The Way" ? (
+              <button
+                onClick={() => handleDelivered(_id)}
+                className="bg-[#60a5fa] px-4 py-2 text-white rounded-md"
+              >
+                Deliver
+              </button>
+            ) : status === "Cancelled" ? (
+              <button
+                onClick={handleAlreadyCancel}
+                className="bg-[#60a5fa] px-4 py-2 text-white rounded-md"
+              >
+                Deliver
+              </button>
+            ) : (
+              <button
+                onClick={handleDeliveryCancel}
+                className="bg-[#60a5fa] px-4 py-2 text-white rounded-md"
+              >
+                Deliver
+              </button>
+            )}
           </h1>
         </td>
         <td>
@@ -63,6 +84,13 @@ const MyDeliveryTable = ({
             {status === "On The Way" ? (
               <button
                 onClick={() => handleCancel(_id)}
+                className="bg-red-500 px-4 py-2 text-white rounded-md"
+              >
+                Cancel
+              </button>
+            ) : status === "Delivered" ? (
+              <button
+                onClick={handleDeliveryCancel}
                 className="bg-red-500 px-4 py-2 text-white rounded-md"
               >
                 Cancel

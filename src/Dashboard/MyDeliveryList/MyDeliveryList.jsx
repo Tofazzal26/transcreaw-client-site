@@ -10,7 +10,7 @@ const MyDeliveryList = () => {
 
   const axiosSecure = useAxiosSecure();
 
-  const { data: AssignDelivery = [] } = useQuery({
+  const { refetch, data: AssignDelivery = [] } = useQuery({
     queryKey: ["Assign", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/assignDelivery/${user?.email}`);
@@ -20,6 +20,39 @@ const MyDeliveryList = () => {
 
   const handleAlreadyCancel = () => {
     Swal.fire("Already Canceled");
+  };
+  const handleDeliveryCancel = () => {
+    Swal.fire("Already Delivered");
+  };
+
+  const handleDelivered = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't  to Delivery this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Delivery it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const Delivery = "Delivered";
+        const result = await axiosSecure.patch(
+          `/deliveryManDelivered/${id}`,
+          { Delivery },
+          { withCredentials: true }
+        );
+        console.log(result.data);
+        if (result.data.modifiedCount > 0) {
+          refetch();
+          Swal.fire({
+            title: "Delivery!",
+            text: "Your Delivery Success",
+            icon: "success",
+          });
+        }
+      }
+    });
   };
 
   const handleCancel = (id) => {
@@ -41,17 +74,16 @@ const MyDeliveryList = () => {
         );
         console.log(result.data);
         if (result.data.modifiedCount > 0) {
+          refetch();
           Swal.fire({
             title: "Canceled!",
-            text: "Your file has been deleted.",
+            text: "Your Delivery Canceled",
             icon: "success",
           });
         }
       }
     });
   };
-
-  console.log(AssignDelivery);
 
   return (
     <div className="bg-[#ffffff] mt-6">
@@ -106,6 +138,8 @@ const MyDeliveryList = () => {
                     assignData={assignData}
                     handleCancel={handleCancel}
                     handleAlreadyCancel={handleAlreadyCancel}
+                    handleDelivered={handleDelivered}
+                    handleDeliveryCancel={handleDeliveryCancel}
                   />
                 ))}
               </tbody>
