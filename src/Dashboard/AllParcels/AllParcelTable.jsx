@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 import {
   Button,
@@ -13,21 +14,8 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    width: "600px",
-    height: "400px",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
-const AllParcelTable = ({ parcel }) => {
-  const { BookingDate, name, phone, requestDate, weightPrice, status } =
+const AllParcelTable = ({ parcel, refetch }) => {
+  const { BookingDate, name, phone, requestDate, weightPrice, status, _id } =
     parcel || {};
 
   const [startDate, setStartDate] = useState(new Date());
@@ -54,16 +42,39 @@ const AllParcelTable = ({ parcel }) => {
     setIsOpen(false);
   }
 
-  const handleManageParcel = (e) => {
+  const handleManageParcel = async (e) => {
     e.preventDefault();
     const ApproximateDate = new Date(startDate).toLocaleDateString();
     const DeliveryMan = JSON.parse(e.target.deliveryMan.value);
-    const { name, _id } = DeliveryMan;
-    console.log(name, _id, ApproximateDate);
+    const { name, _id: newId } = DeliveryMan;
+    const NewApproximateDate = ApproximateDate;
+    const NewDeliveryMenID = newId;
+    const NewStatus = "On The Way";
+    const manageParcel = { NewApproximateDate, NewDeliveryMenID, NewStatus };
+
+    const result = await axiosSecure.patch(
+      `/manageAllParcel/${_id}`,
+      manageParcel,
+      { withCredentials: true }
+    );
+    if (result.data.matchedCount > 0) {
+      refetch();
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Deliveryman Assign Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   const handleChanges = (e) => {
     // console.log(JSON.parse(e.target.value));
+  };
+
+  const handleManageFinish = () => {
+    Swal.fire("Already On The Way");
   };
 
   return (
@@ -77,12 +88,21 @@ const AllParcelTable = ({ parcel }) => {
         <td className="font-medium text-[14px]">{status}</td>
         <td className="font-medium text-[14px]">
           <div>
-            <Button
-              onClick={open}
-              className="rounded-md  py-2 px-4 bg-[#60a5fa] text-sm font-medium text-white focus:outline-none data-[hover]:bg-black/30 data-[focus]:outline-1 data-[focus]:outline-white"
-            >
-              Manage
-            </Button>
+            {status === "On The Way" ? (
+              <button
+                onClick={handleManageFinish}
+                className="rounded-md  py-2 px-4 bg-[#60a5fa] text-sm font-medium text-white focus:outline-none data-[hover]:bg-black/30 data-[focus]:outline-1 data-[focus]:outline-white"
+              >
+                Manage
+              </button>
+            ) : (
+              <Button
+                onClick={open}
+                className="rounded-md  py-2 px-4 bg-[#60a5fa] text-sm font-medium text-white focus:outline-none data-[hover]:bg-black/30 data-[focus]:outline-1 data-[focus]:outline-white"
+              >
+                Manage
+              </Button>
+            )}
 
             <Transition appear show={isOpen}>
               <Dialog
@@ -90,8 +110,8 @@ const AllParcelTable = ({ parcel }) => {
                 className="relative z-10 focus:outline-none"
                 onClose={close}
               >
-                <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                  <div className="flex min-h-full items-center text-black justify-center p-4">
+                <div className="fixed inset-0 z-10 w-screen  overflow-y-auto">
+                  <div className="flex min-h-full items-center text-black  justify-center p-4">
                     <TransitionChild
                       enter="ease-out duration-300"
                       enterFrom="opacity-0 transform-[scale(95%)]"

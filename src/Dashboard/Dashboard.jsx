@@ -16,7 +16,7 @@ const Dashboard = () => {
       const res = await axiosPublic(`/Role/${user?.email}`, {
         withCredentials: true,
       });
-      return res.data.role;
+      return res?.data?.role;
     },
   });
 
