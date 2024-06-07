@@ -4,7 +4,25 @@ import Icon3 from "../../../public/features-icon3.png";
 import { GoBookmark } from "react-icons/go";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { HiOutlineUserGroup } from "react-icons/hi2";
+import useAxiosSecure from "./../../Hooks/useAxiosSecure/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import CountUp from "react-countup";
+
 const Feature = () => {
+  const axiosSecure = useAxiosSecure();
+
+  const { refetch, data: featureData = [] } = useQuery({
+    queryKey: ["featureData"],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/featureAllData`, {
+        withCredentials: true,
+      });
+      return res.data;
+    },
+  });
+
+  const { totalDelivery, totalParcel, totalUser } = featureData || {};
+
   return (
     <div className="container mx-auto">
       <div className="text-center my-12">
@@ -32,7 +50,9 @@ const Feature = () => {
                   <GoBookmark size={40} color="#ffffff" />
                 </div>
                 <div className="flex flex-col justify-center align-middle">
-                  <p className="text-3xl font-semibold leading-none">200</p>
+                  <p className="text-3xl font-semibold leading-none">
+                    <CountUp end={totalParcel} />+
+                  </p>
                   <p className="capitalize font-semibold text-gray-500">
                     Total Parcel Booked
                   </p>
@@ -57,7 +77,9 @@ const Feature = () => {
                   <LiaShippingFastSolid size={40} color="#ffffff" />
                 </div>
                 <div className="flex flex-col justify-center align-middle">
-                  <p className="text-3xl font-semibold leading-none">7500</p>
+                  <p className="text-3xl font-semibold leading-none">
+                    <CountUp end={totalDelivery} />+
+                  </p>
                   <p className="capitalize font-semibold text-gray-500">
                     Total Parcel Delivered
                   </p>
@@ -80,7 +102,9 @@ const Feature = () => {
                   <HiOutlineUserGroup size={40} color="#ffffff" />
                 </div>
                 <div className="flex flex-col justify-center align-middle">
-                  <p className="text-3xl font-semibold leading-none">172%</p>
+                  <p className="text-3xl font-semibold leading-none">
+                    <CountUp end={totalUser} />+
+                  </p>
                   <p className="capitalize font-semibold text-gray-500">
                     Total User
                   </p>

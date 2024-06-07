@@ -48,6 +48,17 @@ const MyDeliveryList = () => {
             `/totalDelivery/${user?.email}`
           );
 
+          const deliveryOne = 1;
+
+          const count = await axiosSecure.post(
+            `/totalDelivery`,
+            { deliveryOne },
+            {
+              withCredentials: true,
+            }
+          );
+          console.log(count.data);
+
           refetch();
           Swal.fire({
             title: "Delivery!",
