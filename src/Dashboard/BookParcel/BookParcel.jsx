@@ -64,7 +64,7 @@ const BookParcel = () => {
       const countUpdate = await axiosPublic.patch(
         `/totalBookCount/${user?.email}`
       );
-      console.log(countUpdate.data);
+
       Swal.fire({
         position: "top-end",
         icon: "success",

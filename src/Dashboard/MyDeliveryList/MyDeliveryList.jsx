@@ -44,6 +44,10 @@ const MyDeliveryList = () => {
         );
         console.log(result.data);
         if (result.data.modifiedCount > 0) {
+          const change = await axiosSecure.patch(
+            `/totalDelivery/${user?.email}`
+          );
+
           refetch();
           Swal.fire({
             title: "Delivery!",
