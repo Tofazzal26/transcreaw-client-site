@@ -15,6 +15,16 @@ const AllDeliveryMen = () => {
     },
   });
 
+  const { data: ReviewAverage = [] } = useQuery({
+    queryKey: ["Review"],
+    queryFn: async () => {
+      const result = await axiosSecure.get(`/deliverymanAverageReview`, {
+        withCredentials: true,
+      });
+      return result.data;
+    },
+  });
+
   return (
     <div className="bg-[#ffffff] mt-6">
       <div className="p-12">
@@ -37,6 +47,7 @@ const AllDeliveryMen = () => {
                   <AllDeliveryMenTable
                     key={deliveryMan._id}
                     deliveryMan={deliveryMan}
+                    ReviewAverage={ReviewAverage}
                   />
                 ))}
               </tbody>

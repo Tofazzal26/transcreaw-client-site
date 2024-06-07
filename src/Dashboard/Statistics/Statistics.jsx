@@ -1,15 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { GrBarChart } from "react-icons/gr";
+import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const Statistics = () => {
-  const [chartData, setChartData] = useState({
+  const axiosSecure = useAxiosSecure();
+
+  const { data: bookingByDate = [] } = useQuery({
+    queryKey: ["BookingDate"],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/allStatisticsDate`, {
+        withCredentials: true,
+      });
+      return res.data;
+    },
+  });
+
+  console.log(bookingByDate);
+
+  const [barChartData, setBarChartData] = useState({
     series: [
       {
-        data: [44, 55, 41, 64, 22, 43, 21],
-      },
-      {
-        data: [53, 32, 33, 52, 13, 44, 32],
+        name: "Bookings",
+        data: [],
       },
     ],
     options: {
@@ -43,16 +56,20 @@ const Statistics = () => {
         intersect: false,
       },
       xaxis: {
-        categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
+        categories: [],
       },
     },
   });
 
-  const [lineData, setLineData] = useState({
+  const [lineChartData, setLineChartData] = useState({
     series: [
       {
-        name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+        name: "Booked Parcels",
+        data: [],
+      },
+      {
+        name: "Delivered Parcels",
+        data: [],
       },
     ],
     options: {
@@ -70,7 +87,7 @@ const Statistics = () => {
         curve: "straight",
       },
       title: {
-        text: "Product Trends by Month",
+        text: "Comparison of Booked and Delivered Parcels",
         align: "left",
       },
       grid: {
@@ -80,20 +97,84 @@ const Statistics = () => {
         },
       },
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-        ],
+        categories: [],
       },
     },
   });
+
+  useEffect(() => {
+    if (bookingByDate.length > 0) {
+      // Process the bookingByDate data
+      const dateCounts = {};
+      const bookedCounts = {};
+      const deliveredCounts = {};
+
+      bookingByDate.forEach((entry) => {
+        const date = entry.BookingDate;
+        if (!dateCounts[date]) {
+          dateCounts[date] = 0;
+        }
+        dateCounts[date] += 1;
+
+        if (!bookedCounts[date]) {
+          bookedCounts[date] = 0;
+        }
+        if (!deliveredCounts[date]) {
+          deliveredCounts[date] = 0;
+        }
+
+        bookedCounts[date] += 1;
+        if (entry.status === "Delivered") {
+          deliveredCounts[date] += 1;
+        }
+      });
+
+      const dates = Object.keys(dateCounts);
+      const bookingData = Object.values(dateCounts);
+      const bookedData = Object.values(bookedCounts);
+      const deliveredData = Object.values(deliveredCounts);
+
+      // Update bar chart data
+      setBarChartData((prevData) => ({
+        ...prevData,
+        series: [
+          {
+            name: "Bookings",
+            data: bookingData,
+          },
+        ],
+        options: {
+          ...prevData.options,
+          xaxis: {
+            ...prevData.options.xaxis,
+            categories: dates,
+          },
+        },
+      }));
+
+      // Update line chart data
+      setLineChartData((prevData) => ({
+        ...prevData,
+        series: [
+          {
+            name: "Booked Parcels",
+            data: bookedData,
+          },
+          {
+            name: "Delivered Parcels",
+            data: deliveredData,
+          },
+        ],
+        options: {
+          ...prevData.options,
+          xaxis: {
+            ...prevData.options.xaxis,
+            categories: dates,
+          },
+        },
+      }));
+    }
+  }, [bookingByDate]);
 
   return (
     <div className="mt-6">
@@ -101,8 +182,8 @@ const Statistics = () => {
         <div className="bg-white">
           <div className="p-6">
             <ReactApexChart
-              options={chartData.options}
-              series={chartData.series}
+              options={barChartData.options}
+              series={barChartData.series}
               type="bar"
               height={400}
             />
@@ -111,8 +192,8 @@ const Statistics = () => {
         <div className="bg-white">
           <div className="p-6">
             <ReactApexChart
-              options={lineData.options}
-              series={lineData.series}
+              options={lineChartData.options}
+              series={lineChartData.series}
               type="line"
               height={320}
             />

@@ -20,6 +20,12 @@ const MyParcels = () => {
     },
   });
 
+  const handleReviewAdd = () => {};
+
+  const handleWaitForDelivery = () => {
+    Swal.fire("Waiting For Delivered");
+  };
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -85,6 +91,7 @@ const MyParcels = () => {
                   <th className="text-[16px]">Delivery Men ID</th>
                   <th className="text-[16px]">Booking Status</th>
                   <th className="text-[16px]">Update</th>
+                  <th className="text-[16px]">Review</th>
                   <th className="text-[16px]">Cancel</th>
                 </tr>
               </thead>
@@ -94,6 +101,7 @@ const MyParcels = () => {
                     key={bookData._id}
                     bookData={bookData}
                     handleDelete={handleDelete}
+                    handleWaitForDelivery={handleWaitForDelivery}
                   />
                 ))}
               </tbody>
