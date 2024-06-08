@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "./../../AuthProvider/AuthProvider";
 import ParcelTable from "./ParcelTable";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const MyParcels = () => {
   const axiosSecure = useAxiosSecure();
@@ -63,21 +64,38 @@ const MyParcels = () => {
     0
   );
 
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  const handleFilterChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
+
+  const filteredBookings = selectedStatus
+    ? userBook.filter((booking) => booking.status === selectedStatus)
+    : userBook;
+
   return (
     <div className="bg-[#ffffff] mt-6">
       <div className="p-12">
         <h1 className="text-2xl font-semibold mb-6 uppercase text-center">
           My Parcel
         </h1>
-        <div className="flex justify-between my-2">
-          <h1 className="text-xl font-semibold mb-6 uppercase">
-            Total Price : {totalPrice}$
-          </h1>
-          <span>
-            <button className="text-xl px-4 py-1 bg-[#0984e2] rounded-md text-white">
-              Pay
-            </button>
-          </span>
+
+        <h1 className="text-xl font-semibold mb-6 uppercase">
+          Total Price : {totalPrice}$
+        </h1>
+
+        <div className="text-right mb-6">
+          <select
+            value={selectedStatus}
+            onChange={handleFilterChange}
+            className="select select-bordered font-semibold w-[200px]"
+          >
+            <option value="">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Delivered">Delivered</option>
+            <option value="On The Way">On The Way</option>
+          </select>
         </div>
         <div>
           <div className="overflow-x-auto">
@@ -92,11 +110,12 @@ const MyParcels = () => {
                   <th className="text-[16px]">Booking Status</th>
                   <th className="text-[16px]">Update</th>
                   <th className="text-[16px]">Review</th>
+                  <th className="text-[16px]">Payment</th>
                   <th className="text-[16px]">Cancel</th>
                 </tr>
               </thead>
               <tbody>
-                {userBook.map((bookData) => (
+                {filteredBookings.map((bookData) => (
                   <ParcelTable
                     key={bookData._id}
                     bookData={bookData}

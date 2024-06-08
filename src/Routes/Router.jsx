@@ -16,10 +16,13 @@ import AllUsers from "../Dashboard/AllUsers/AllUsers";
 import AllDeliveryMen from "../Dashboard/AllDeliveryMen/AllDeliveryMen";
 import MyDeliveryList from "../Dashboard/MyDeliveryList/MyDeliveryList";
 import MyReviews from "../Dashboard/MyReviews/MyReviews";
+import NotFoundPage from "../Components/NotFoundPage/NotFoundPage";
+import Payments from "../Components/Payments/Payments";
 const Router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <NotFoundPage />,
     children: [
       {
         path: "/",
@@ -50,6 +53,10 @@ const Router = createBrowserRouter([
       {
         path: "/dashboard/myParcel",
         element: <MyParcels />,
+      },
+      {
+        path: "/dashboard/payment",
+        element: <Payments />,
       },
       {
         path: "/dashboard/myDeliveryList",

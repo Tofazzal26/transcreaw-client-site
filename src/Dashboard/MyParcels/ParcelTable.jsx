@@ -1,6 +1,6 @@
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { HiPlus } from "react-icons/hi";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
   Button,
@@ -97,6 +97,7 @@ const ParcelTable = ({ bookData, handleDelete, handleWaitForDelivery }) => {
             </button>
           )}
         </td>
+
         <td className="font-medium text-[14px]">
           {status === "Delivered" ? (
             <>
@@ -192,6 +193,25 @@ const ParcelTable = ({ bookData, handleDelete, handleWaitForDelivery }) => {
               Review
             </button>
           )}
+        </td>
+        <td className="font-medium text-[14px]">
+          {" "}
+          <span>
+            {bookData ? (
+              <Link to="/dashboard/payment">
+                <button className="text-base px-4 py-1 bg-[#0984e2] rounded-md text-white">
+                  Pay
+                </button>
+              </Link>
+            ) : (
+              <button
+                disabled
+                className="text-base px-4 py-1 bg-purple-500 rounded-md text-white"
+              >
+                Pay
+              </button>
+            )}
+          </span>
         </td>
         <td className="font-medium text-[14px]">
           {status === "Pending" ? (
