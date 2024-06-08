@@ -1,8 +1,11 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
+import { AuthContext } from "./../../AuthProvider/AuthProvider";
 
 const CheckoutForm = () => {
+  const { user } = useContext(AuthContext);
+  const [transactionId, setTransactionId] = useState();
   const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
   const elements = useElements();
@@ -49,6 +52,26 @@ const CheckoutForm = () => {
       console.log("Payment Method", paymentMethod);
       setError("");
     }
+
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            email: user?.email || "anonymous",
+            name: user?.displayName || "anonymous",
+          },
+        },
+      });
+    if (confirmError) {
+      console.log("confirm error");
+    } else {
+      console.log("payment intent", paymentIntent);
+      if (paymentIntent.status === "succeeded") {
+        console.log("transaction id", paymentIntent.id);
+        setTransactionId(paymentIntent.id);
+      }
+    }
   };
 
   return (
@@ -72,15 +95,22 @@ const CheckoutForm = () => {
               },
             }}
           />
+          <div className="my-4">
+            <button
+              disabled={!stripe || !clientSecret}
+              className="bg-[#570DF8] py-[6px] text-white px-6 rounded-md font-semibold"
+              type="submit"
+            >
+              Pay
+            </button>
+          </div>
 
-          <button
-            disabled={!stripe || !clientSecret}
-            className="bg-[#570DF8] py-[10px] text-white lg:w-[400px] rounded-md font-semibold"
-            type="submit"
-          >
-            Pay
-          </button>
           <p className="text-red-500">{error}</p>
+          {transactionId && (
+            <p className="text-green-500">
+              Your transaction id: {transactionId}
+            </p>
+          )}
         </form>
       </div>
     </div>
