@@ -20,6 +20,8 @@ import NotFoundPage from "../Components/NotFoundPage/NotFoundPage";
 import Payments from "../Components/Payments/Payments";
 import DeliveryManSecure from "../DeliveryManSecure/DeliveryManSecure";
 import DashBoardNavigate from "../Components/DashBoardNavigate/DashBoardNavigate";
+import AdminSecureRoute from "../Components/AdminSecureRoute/AdminSecureRoute";
+import SuccessPayment from "../Components/Payments/SuccessPayment";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -62,8 +64,14 @@ const Router = createBrowserRouter([
         element: <MyParcels />,
       },
       {
-        path: "/dashboard/payment",
+        path: "/dashboard/payment/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:4000/paymentOne/${params.id}`),
         element: <Payments />,
+      },
+      {
+        path: "/dashboard/successPayment",
+        element: <SuccessPayment />,
       },
       {
         path: "/dashboard/myDeliveryList",
@@ -75,23 +83,43 @@ const Router = createBrowserRouter([
       },
       {
         path: "/dashboard/myReviews",
-        element: <MyReviews />,
+        element: (
+          <DeliveryManSecure>
+            <MyReviews />
+          </DeliveryManSecure>
+        ),
       },
       {
         path: "/dashboard/statistics",
-        element: <Statistics />,
+        element: (
+          <AdminSecureRoute>
+            <Statistics />
+          </AdminSecureRoute>
+        ),
       },
       {
         path: "/dashboard/allParcels",
-        element: <AllParcels />,
+        element: (
+          <AdminSecureRoute>
+            <AllParcels />
+          </AdminSecureRoute>
+        ),
       },
       {
         path: "/dashboard/allUsers",
-        element: <AllUsers />,
+        element: (
+          <AdminSecureRoute>
+            <AllUsers />
+          </AdminSecureRoute>
+        ),
       },
       {
         path: "/dashboard/allDeliveryMen",
-        element: <AllDeliveryMen />,
+        element: (
+          <AdminSecureRoute>
+            <AllDeliveryMen />
+          </AdminSecureRoute>
+        ),
       },
       {
         path: "/dashboard/parcelUpdate/:id",

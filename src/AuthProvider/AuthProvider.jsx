@@ -23,12 +23,23 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       const logged = currentUser?.email || user?.email;
 
+      // if (currentUser) {
+      //   // axiosPublic.post("/jwt", { logged }, { withCredentials: true });
+      // } else {
+      //   // axiosPublic.post("/logout", { logged }, { withCredentials: true });
+      // }
+
       if (currentUser) {
-        axiosPublic.post("/jwt", { logged }, { withCredentials: true });
+        const authInfo = { email: currentUser.email };
+        axiosPublic.post("/jwt", authInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+          }
+        });
       } else {
-        axiosPublic.post("/logout", { logged }, { withCredentials: true });
+        localStorage.removeItem("access-token");
       }
-      console.log(currentUser);
+
       setNotLoading(false);
     });
     return () => {

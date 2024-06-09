@@ -15,8 +15,16 @@ import {
 } from "@headlessui/react";
 
 const AllParcelTable = ({ parcel, refetch }) => {
-  const { BookingDate, name, phone, requestDate, weightPrice, status, _id } =
-    parcel || {};
+  const {
+    BookingDate,
+    name,
+    phone,
+    requestDate,
+    weightPrice,
+    status,
+    _id,
+    paid,
+  } = parcel || {};
 
   const [startDate, setStartDate] = useState(new Date());
 
@@ -87,6 +95,7 @@ const AllParcelTable = ({ parcel, refetch }) => {
         <td className="font-medium text-[14px]">{phone}</td>
         <td className="font-medium text-[14px]">{BookingDate}</td>
         <td className="font-medium text-[14px]">{requestDate}</td>
+        <td className="font-medium text-[14px]">{paid ? "Paid" : "N/A"}</td>
         <td className="font-medium text-[14px]">{weightPrice}$</td>
         <td className="font-medium text-[14px]">{status}</td>
         <td className="font-medium text-[14px]">

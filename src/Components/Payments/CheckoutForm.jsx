@@ -2,8 +2,11 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
 import { AuthContext } from "./../../AuthProvider/AuthProvider";
+import SuccessPayment from "./SuccessPayment";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+// import useWindowSize from "react-use/lib/useWindowSize";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ Price, originalId }) => {
   const { user } = useContext(AuthContext);
   const [transactionId, setTransactionId] = useState();
   const [clientSecret, setClientSecret] = useState("");
@@ -11,10 +14,14 @@ const CheckoutForm = () => {
   const elements = useElements();
   const [error, setError] = useState();
 
-  const axiosSecure = useAxiosSecure();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/dashboard/successPayment";
 
+  const axiosSecure = useAxiosSecure();
   useEffect(() => {
-    const totalPrice = 400;
+    const totalPrice = Price;
+
     axiosSecure
       .post(
         "/create-payment-intent",
@@ -25,7 +32,7 @@ const CheckoutForm = () => {
         console.log(res.data.clientSecret);
         setClientSecret(res.data.clientSecret);
       });
-  }, [axiosSecure]);
+  }, [axiosSecure, Price]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -68,6 +75,15 @@ const CheckoutForm = () => {
     } else {
       console.log("payment intent", paymentIntent);
       if (paymentIntent.status === "succeeded") {
+        // paid status change
+        const newPaid = true;
+        const result = await axiosSecure.patch(
+          `/paidSuccess/${originalId}`,
+          { newPaid },
+          { withCredentials: true }
+        );
+        console.log(result.data);
+        navigate(from);
         console.log("transaction id", paymentIntent.id);
         setTransactionId(paymentIntent.id);
       }

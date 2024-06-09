@@ -13,7 +13,9 @@ const MyDeliveryList = () => {
   const { refetch, data: AssignDelivery = [] } = useQuery({
     queryKey: ["Assign", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/assignDelivery/${user?.email}`);
+      const res = await axiosSecure.get(`/assignDelivery/${user?.email}`, {
+        withCredentials: true,
+      });
       return res.data;
     },
   });

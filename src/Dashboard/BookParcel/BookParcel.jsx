@@ -36,6 +36,7 @@ const BookParcel = () => {
     const parcelDeliveryAddress = e.target.parcelAddress.value;
     const ApproximateDate = "Process";
     const DeliveryMenID = "Process";
+    const paid = false;
     const Longitude = e.target.Longitude.value;
     const Latitude = e.target.Latitude.value;
     const BookingDate = new Date().toLocaleDateString();
@@ -46,6 +47,7 @@ const BookParcel = () => {
       email,
       status,
       weightPrice,
+      paid,
       phone,
       ApproximateDate,
       DeliveryMenID,

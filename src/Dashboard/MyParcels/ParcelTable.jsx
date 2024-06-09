@@ -24,6 +24,7 @@ const ParcelTable = ({ bookData, handleDelete, handleWaitForDelivery }) => {
     _id,
     ApproximateDate,
     DeliveryMenID,
+    paid,
   } = bookData || {};
 
   const axiosSecure = useAxiosSecure();
@@ -198,8 +199,11 @@ const ParcelTable = ({ bookData, handleDelete, handleWaitForDelivery }) => {
           {" "}
           <span>
             {bookData ? (
-              <Link to="/dashboard/payment">
-                <button className="text-base px-4 py-1 bg-[#0984e2] rounded-md text-white">
+              <Link to={`/dashboard/payment/${_id}`}>
+                <button
+                  disabled={paid ? true : false}
+                  className="text-base px-4 py-1 bg-[#0984e2] rounded-md text-white"
+                >
                   Pay
                 </button>
               </Link>

@@ -91,6 +91,7 @@ const AllParcels = () => {
                     <th className="text-[16px]">User Phone</th>
                     <th className="text-[16px]">Booking Date</th>
                     <th className="text-[16px]">Requested Date</th>
+                    <th className="text-[16px]">Paid</th>
                     <th className="text-[16px]">Cost</th>
                     <th className="text-[16px]">Status</th>
                     <th className="text-[16px]">Manage</th>
