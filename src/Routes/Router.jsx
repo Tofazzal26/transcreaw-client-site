@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import Root from "../Routes/Root";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
@@ -18,6 +18,8 @@ import MyDeliveryList from "../Dashboard/MyDeliveryList/MyDeliveryList";
 import MyReviews from "../Dashboard/MyReviews/MyReviews";
 import NotFoundPage from "../Components/NotFoundPage/NotFoundPage";
 import Payments from "../Components/Payments/Payments";
+import DeliveryManSecure from "../DeliveryManSecure/DeliveryManSecure";
+import DashBoardNavigate from "../Components/DashBoardNavigate/DashBoardNavigate";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -45,7 +47,12 @@ const Router = createBrowserRouter([
         <Dashboard />
       </PrivateRoute>
     ),
+
     children: [
+      {
+        path: "/dashboard",
+        element: <DashBoardNavigate />,
+      },
       {
         path: "/dashboard/bookParcel",
         element: <BookParcel />,
@@ -60,7 +67,11 @@ const Router = createBrowserRouter([
       },
       {
         path: "/dashboard/myDeliveryList",
-        element: <MyDeliveryList />,
+        element: (
+          <DeliveryManSecure>
+            <MyDeliveryList />
+          </DeliveryManSecure>
+        ),
       },
       {
         path: "/dashboard/myReviews",
