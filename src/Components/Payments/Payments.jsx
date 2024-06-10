@@ -6,7 +6,7 @@ import { useLoaderData } from "react-router-dom";
 const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_GATEWAY_PK);
 const Payments = () => {
   const PaymentPrice = useLoaderData();
-  console.log(PaymentPrice);
+  // console.log(PaymentPrice);
 
   const Price = PaymentPrice.reduce(
     (after, before) => after + before.weightPrice,

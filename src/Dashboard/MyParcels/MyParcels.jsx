@@ -46,7 +46,7 @@ const MyParcels = () => {
             withCredentials: true,
           }
         );
-        console.log(result.data);
+        // console.log(result.data);
         if (result.data.modifiedCount > 0) {
           refetch();
           Swal.fire({

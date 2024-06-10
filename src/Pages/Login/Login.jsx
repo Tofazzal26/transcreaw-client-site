@@ -50,7 +50,7 @@ const Login = () => {
           toast.error("Please enter a valid email & password");
         });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -79,7 +79,7 @@ const Login = () => {
         toast.success("Google Login Successfully");
         navigate(from);
         const res = await axiosPublic.post("/userRole", UserInfo);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((error) => {
         // console.log(error);

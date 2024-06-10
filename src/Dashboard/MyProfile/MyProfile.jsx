@@ -16,7 +16,7 @@ const MyProfile = () => {
     queryKey: ["profile", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `http://localhost:4000/userProfile/${user?.email}`
+        `https://transcreaw.vercel.app/userProfile/${user?.email}`
       );
       return res.data;
     },
@@ -53,7 +53,7 @@ const MyProfile = () => {
         ProfileDoc,
         { withCredentials: true }
       );
-      console.log(updateProfile.data);
+      // console.log(updateProfile.data);
       if (updateProfile.data.modifiedCount > 0) {
         Swal.fire({
           position: "top-end",
@@ -65,7 +65,7 @@ const MyProfile = () => {
         refetch();
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 

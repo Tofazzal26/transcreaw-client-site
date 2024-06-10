@@ -29,7 +29,7 @@ const CheckoutForm = ({ Price, originalId }) => {
         { withCredentials: true }
       )
       .then((res) => {
-        console.log(res.data.clientSecret);
+        // console.log(res.data.clientSecret);
         setClientSecret(res.data.clientSecret);
       });
   }, [axiosSecure, Price]);
@@ -53,10 +53,10 @@ const CheckoutForm = ({ Price, originalId }) => {
     });
 
     if (error) {
-      console.log("Stripe Error", error);
+      // console.log("Stripe Error", error);
       setError(error.message);
     } else {
-      console.log("Payment Method", paymentMethod);
+      // console.log("Payment Method", paymentMethod);
       setError("");
     }
 
@@ -71,9 +71,9 @@ const CheckoutForm = ({ Price, originalId }) => {
         },
       });
     if (confirmError) {
-      console.log("confirm error");
+      // console.log("confirm error");
     } else {
-      console.log("payment intent", paymentIntent);
+      // console.log("payment intent", paymentIntent);
       if (paymentIntent.status === "succeeded") {
         // paid status change
         const newPaid = true;
@@ -82,9 +82,9 @@ const CheckoutForm = ({ Price, originalId }) => {
           { newPaid },
           { withCredentials: true }
         );
-        console.log(result.data);
+        // console.log(result.data);
         navigate(from);
-        console.log("transaction id", paymentIntent.id);
+        // console.log("transaction id", paymentIntent.id);
         setTransactionId(paymentIntent.id);
       }
     }

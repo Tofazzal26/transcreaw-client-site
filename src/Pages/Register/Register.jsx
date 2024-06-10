@@ -75,20 +75,20 @@ const Register = () => {
                 TotalBookCount,
               };
               const result = await axiosPublic.post("/userRole", UserInfo);
-              console.log(result.data);
+              // console.log(result.data);
               setProfileLoad(true);
               navigate(from);
               toast.success("Register Successful");
             })
             .catch((error) => {
-              console.log(error);
+              // console.log(error);
             });
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 

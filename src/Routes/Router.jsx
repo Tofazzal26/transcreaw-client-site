@@ -66,7 +66,7 @@ const Router = createBrowserRouter([
       {
         path: "/dashboard/payment/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:4000/paymentOne/${params.id}`),
+          fetch(`https://transcreaw.vercel.app/paymentOne/${params.id}`),
         element: <Payments />,
       },
       {
@@ -125,7 +125,7 @@ const Router = createBrowserRouter([
         path: "/dashboard/parcelUpdate/:id",
         element: <ParcelUpdate />,
         loader: ({ params }) =>
-          fetch(`http://localhost:4000/bookDetails/${params.id}`),
+          fetch(`https://transcreaw.vercel.app/bookDetails/${params.id}`),
       },
       {
         path: "/dashboard/myProfile",

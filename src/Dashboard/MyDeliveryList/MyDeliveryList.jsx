@@ -44,7 +44,7 @@ const MyDeliveryList = () => {
           { Delivery },
           { withCredentials: true }
         );
-        console.log(result.data);
+        // console.log(result.data);
         if (result.data.modifiedCount > 0) {
           const change = await axiosSecure.patch(
             `/totalDelivery/${user?.email}`
@@ -59,7 +59,7 @@ const MyDeliveryList = () => {
               withCredentials: true,
             }
           );
-          console.log(count.data);
+          // console.log(count.data);
 
           refetch();
           Swal.fire({
@@ -89,7 +89,7 @@ const MyDeliveryList = () => {
           { newStatus },
           { withCredentials: true }
         );
-        console.log(result.data);
+        // console.log(result.data);
         if (result.data.modifiedCount > 0) {
           refetch();
           Swal.fire({
