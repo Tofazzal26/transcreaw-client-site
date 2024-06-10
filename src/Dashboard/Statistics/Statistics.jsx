@@ -16,8 +16,6 @@ const Statistics = () => {
     },
   });
 
-  console.log(bookingByDate);
-
   const [barChartData, setBarChartData] = useState({
     series: [
       {

@@ -7,14 +7,15 @@ import { HiOutlineUserGroup } from "react-icons/hi2";
 import useAxiosSecure from "./../../Hooks/useAxiosSecure/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import CountUp from "react-countup";
+import useAxiosPublic from "../../Hooks/useAxiosPublic/useAxiosPublic";
 
 const Feature = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
 
   const { refetch, data: featureData = [] } = useQuery({
     queryKey: ["featureData"],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/featureAllData`, {
+      const res = await axiosPublic.get(`/featureAllData`, {
         withCredentials: true,
       });
       return res.data;

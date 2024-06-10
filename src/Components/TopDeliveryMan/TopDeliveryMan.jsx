@@ -1,15 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import Man1 from "../../../public/service-4.jpg";
-import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
+
 import { useState } from "react";
+import useAxiosPublic from "../../Hooks/useAxiosPublic/useAxiosPublic";
 
 const TopDeliveryMan = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
 
   const { refetch, data: TopDeliveryMan = [] } = useQuery({
     queryKey: ["allDeliveryMan"],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/allDeliveryMan`, {
+      const res = await axiosPublic.get(`/allDeliveryMan`, {
         withCredentials: true,
       });
       return res.data;
@@ -19,7 +20,7 @@ const TopDeliveryMan = () => {
   const { data: ReviewAverage = [] } = useQuery({
     queryKey: ["Review"],
     queryFn: async () => {
-      const result = await axiosSecure.get(`/deliverymanAverageReview`, {
+      const result = await axiosPublic.get(`/deliverymanAverageReview`, {
         withCredentials: true,
       });
       return result.data;

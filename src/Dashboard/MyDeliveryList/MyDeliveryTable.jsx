@@ -41,7 +41,6 @@ const MyDeliveryTable = ({
   function close() {
     setIsOpen(false);
   }
-  console.log(assignData);
 
   return (
     <>
