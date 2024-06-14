@@ -4,7 +4,7 @@
 
 ##### We provide clear and brief summaries of lengthy documents, articles, and reports, capturing the main ideas and essential details. Our summaries are crafted with precision to ensure accuracy and reliability, maintaining the integrity of the original content.
 
-## Live Link --> [Luxury Hotel](https://github.com/matiassingers/awesome-readme)
+## Live Link --> [Transcreaw](https://transcreaw.web.app)
 
 ## Characteristics:
 
